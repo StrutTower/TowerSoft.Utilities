@@ -3,15 +3,34 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>0.1.0</AssemblyVersion>
+    <AssemblyVersion>0.2.0</AssemblyVersion>
     <FileVersion>$(AsseblyVersion)</FileVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>$(AssemblyVersion)</Version>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageProjectUrl>https://github.com/StrutTower/TowerSoft.Utilities</PackageProjectUrl>
+    <PackageIcon>towersoft-logo-T_128x.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/StrutTower/TowerSoft.Utilities</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="towersoft-logo-T_128x.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
