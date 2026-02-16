@@ -1,8 +1,7 @@
-﻿using System;
-
-namespace TowerSoft.Utilities.Attributes {
+﻿namespace TowerSoft.Utilities.Attributes {
     /// <summary>
     /// 
     /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
     public class CompareIgnoreFieldAttribute : Attribute { }
 }

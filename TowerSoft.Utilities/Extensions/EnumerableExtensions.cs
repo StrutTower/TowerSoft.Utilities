@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TowerSoft.Utilities {
+﻿namespace TowerSoft.Utilities {
     /// <summary>
     /// Extensions for IEnumerables
     /// </summary>
@@ -14,11 +9,10 @@ namespace TowerSoft.Utilities {
         /// <typeparam name="TSource"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static bool SafeAny<TSource>(this IEnumerable<TSource>? source) {
+        public static bool SafeAny<TSource>(this IEnumerable<TSource> source) {
             if (source == null) return false;
-            using (IEnumerator<TSource> e = source.GetEnumerator()) {
-                if (e.MoveNext()) return true;
-            }
+            using IEnumerator<TSource> e = source.GetEnumerator();
+            if (e.MoveNext()) return true;
             return false;
         }
 
@@ -29,9 +23,9 @@ namespace TowerSoft.Utilities {
         /// <param name="source"></param>
         /// <param name="predicate">Linq statement to match against</param>
         /// <returns></returns>
-        public static bool SafeAny<TSource>(this IEnumerable<TSource>? source, Func<TSource, bool> predicate) {
+        public static bool SafeAny<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
             if (source == null) return false;
-            if (predicate == null) throw new ArgumentNullException("predicate");
+            ArgumentNullException.ThrowIfNull(predicate);
             foreach (TSource element in source) {
                 if (predicate(element)) return true;
             }
@@ -51,12 +45,13 @@ namespace TowerSoft.Utilities {
         }
 
         /// <summary>
-        /// Splits a IEnumerable into batches
+        /// Use Enumerable.Chunk added in .NET 6 instead. Splits a IEnumerable into batches.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="items"></param>
         /// <param name="size">Max number of items to include in each batch.</param>
         /// <returns></returns>
+        [Obsolete(".NET 6 added Chunk which provides the same functionality.")]
         public static IEnumerable<IEnumerable<T>> Batch<T>(this IEnumerable<T> items, int size) {
             return items.Select((item, index) => new { item, index })
                         .GroupBy(x => x.index / size)

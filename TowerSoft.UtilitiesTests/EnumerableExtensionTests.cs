@@ -10,7 +10,7 @@ namespace TowerSoft.UtilitiesTests {
     public class EnumerableExtensionTests {
         [TestMethod]
         public void SafeAny_FilledList_ShouldReturnTrue() {
-            List<string> list = new() { "test1", "test2" };
+            List<string> list = ["test1", "test2"];
 
             bool result = list.SafeAny();
 
@@ -19,7 +19,7 @@ namespace TowerSoft.UtilitiesTests {
 
         [TestMethod]
         public void SafeAny_EmptyList_ShouldReturnFalse() {
-            List<string> list = new();
+            List<string> list = [];
 
             bool result = list.SafeAny();
 
@@ -28,7 +28,7 @@ namespace TowerSoft.UtilitiesTests {
 
         [TestMethod]
         public void SafeAny_NullList_ShouldReturnFalse() {
-            List<string>? list = null;
+            List<string> list = null;
 
             bool result = list.SafeAny();
 
@@ -57,28 +57,30 @@ namespace TowerSoft.UtilitiesTests {
         public void Batch_50_ShouldReturn10Batches() {
             var testObjects = GetTestObjects(480);
 
+#pragma warning disable CS0618 // Type or member is obsolete
             var batches = testObjects.Batch(50);
+#pragma warning restore CS0618 // Type or member is obsolete
 
             Assert.AreEqual(10, batches.Count());
         }
 
         [TestMethod]
         public void IsOfType_ShouldMatch() {
-            List<TestObject> list = new List<TestObject>();
+            List<TestObject> list = [];
 
             Assert.IsTrue(list.IsOfType(typeof(TestObject)));
         }
 
         [TestMethod]
         public void IsOfType_ShouldNotMatch() {
-            List<string> list = new List<string>();
+            List<string> list = [];
 
             Assert.IsFalse(list.IsOfType(typeof(TestObject)));
         }
 
         // --- Helpers ---
-        private List<TestObject> GetTestObjects(int count = 3) {
-            List<TestObject> testObjects = new();
+        private static List<TestObject> GetTestObjects(int count = 3) {
+            List<TestObject> testObjects = [];
             for (int i = 0; i < count; i++) {
                 testObjects.Add(new() {
                     String = $"test{i}",

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TowerSoft.Utilities {
+﻿namespace TowerSoft.Utilities {
     /// <summary>
     /// Extensions for all objects
     /// </summary>
@@ -14,11 +11,34 @@ namespace TowerSoft.Utilities {
             if (obj == null) return;
             Type type = obj.GetType();
 
-            foreach (var prop in type.GetProperties()) {
+            foreach (System.Reflection.PropertyInfo prop in type.GetProperties()) {
                 if (prop.PropertyType == typeof(string)) {
-                    string? value = (string?)prop.GetValue(obj);
+                    string value = (string)prop.GetValue(obj);
                     prop.SetValue(obj, value.SafeTrim());
                 }
+            }
+        }
+
+        /// <summary>
+        /// Check all properties on the object for blank strings and converts them to null
+        /// </summary>
+        /// <param name="obj"></param>
+        public static void NullOutEmptyStrings(this object obj) {
+            foreach (System.Reflection.PropertyInfo prop in obj.GetType().GetProperties()) {
+                Type type = prop.PropertyType;
+
+                if (type != typeof(string) || !prop.CanWrite || !prop.CanRead || prop.SetMethod.IsVirtual)
+                    continue;
+
+                object objProp = prop.GetValue(obj);
+
+                if (objProp == null) continue;
+
+                string str = objProp.ToString();
+
+                if (!string.IsNullOrWhiteSpace(str)) continue;
+
+                prop.SetValue(obj, null);
             }
         }
 

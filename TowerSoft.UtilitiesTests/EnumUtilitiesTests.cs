@@ -26,6 +26,22 @@ namespace TowerSoft.UtilitiesTests {
         }
 
         [TestMethod]
+        public void GetEnumDescription_EnumWithDescription_ReturnDescription() {
+            TestEnum testEnum = TestEnum.Value2;
+            string description = EnumUtilities.GetEnumDescription(testEnum);
+
+            Assert.AreEqual("Value 2 Description", description);
+        }
+
+        [TestMethod]
+        public void GetEnumDescription_EnumWithoutDescription_ReturnEmptyString() {
+            TestEnum testEnum = TestEnum.Value1;
+            string description = EnumUtilities.GetEnumDescription(testEnum);
+
+            Assert.IsTrue(string.IsNullOrEmpty(description));
+        }
+
+        [TestMethod]
         public void EnumGetValues_ShouldReturnUnordered() {
             List<TestEnum> values = Enum.GetValues<TestEnum>().ToList();
 

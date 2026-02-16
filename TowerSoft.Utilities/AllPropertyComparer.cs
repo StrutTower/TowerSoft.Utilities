@@ -1,26 +1,16 @@
-﻿using System.Collections.Generic;
-using TowerSoft.Utilities.Helpers;
+﻿using TowerSoft.Utilities.Helpers;
 
 namespace TowerSoft.Utilities {
     /// <summary>
     /// Comparer for all properties on an object. Compare and CompareIgnore attributes can be used to filter properties
     /// </summary>
     /// <typeparam name="T">Object type to compare</typeparam>
-    public class AllPropertyComparer<T> : IEqualityComparer<T> {
-        private readonly PropertyReflectionHelper propertyReflectionHelper;
-        readonly IList<string> keyProperties = new List<string>();
-
-        /// <summary>
-        /// Comparer for all properties on an object. Compare and CompareIgnore attributes can be used to filter properties
-        /// </summary>
-        /// <param name="useCompareFields">
-        /// If true, will only compare fields with the CompareFieldAttribute. 
-        /// If false, will compare all fields except those with the CompareIgnoreFieldAttribute
-        /// </param>
-        public AllPropertyComparer(bool useCompareFields = false) {
-            propertyReflectionHelper = new PropertyReflectionHelper();
-            keyProperties = propertyReflectionHelper.GetPropertyNames<T>(useCompareFields);
-        }
+    /// <param name="useCompareFields">
+    /// If true, will only compare fields with the CompareFieldAttribute. 
+    /// If false, will compare all fields except those with the CompareIgnoreFieldAttribute
+    /// </param>
+    public class AllPropertyComparer<T>(bool useCompareFields = false) : IEqualityComparer<T> {
+        readonly IList<string> keyProperties = PropertyReflectionHelper.GetPropertyNames<T>(useCompareFields);
 
         /// <summary>
         /// Determines whether the specified objects are equal.
@@ -33,8 +23,8 @@ namespace TowerSoft.Utilities {
                 return false;
 
             foreach (string propertyName in keyProperties) {
-                object xValue = propertyReflectionHelper.GetPropertyValue(propertyName, x);
-                object yValue = propertyReflectionHelper.GetPropertyValue(propertyName, y);
+                object xValue = PropertyReflectionHelper.GetPropertyValue(propertyName, x);
+                object yValue = PropertyReflectionHelper.GetPropertyValue(propertyName, y);
 
                 if (xValue == null && yValue == null)
                     return true;
@@ -56,7 +46,7 @@ namespace TowerSoft.Utilities {
         public int GetHashCode(T obj) {
             int hash = 17;
             foreach (string propertyName in keyProperties) {
-                var value = propertyReflectionHelper.GetPropertyValue(propertyName, obj);
+                object value = PropertyReflectionHelper.GetPropertyValue(propertyName, obj);
                 if (value == null) {
                     hash = hash * 23 + "".GetHashCode();
                 } else {

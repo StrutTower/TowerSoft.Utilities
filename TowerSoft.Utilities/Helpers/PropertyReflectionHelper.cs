@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using TowerSoft.Utilities.Attributes;
 
 namespace TowerSoft.Utilities.Helpers {
-    internal class PropertyReflectionHelper {
-        public IList<string> GetPropertyNames<T>(bool useCompareFields = false) {
-            IList<string> propertyNames = new List<string>();
+    internal static class PropertyReflectionHelper {
+        internal static IList<string> GetPropertyNames<T>(bool useCompareFields = false) {
+            IList<string> propertyNames = [];
             IEnumerable<PropertyInfo> propertyInfos = typeof(T).GetProperties(
                 BindingFlags.Public |
                 BindingFlags.Static |
@@ -31,7 +28,7 @@ namespace TowerSoft.Utilities.Helpers {
             return propertyNames;
         }
 
-        public object GetPropertyValue<T>(string propName, T src) {
+        internal static object GetPropertyValue<T>(string propName, T src) {
             return src.GetType().GetProperty(propName).GetValue(src);
         }
     }
